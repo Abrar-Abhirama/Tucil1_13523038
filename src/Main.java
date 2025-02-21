@@ -34,7 +34,7 @@ public class Main {
             }
             
             Board board = new Board(rowBoard, colBoard);
-            board.printBoard();
+            // board.printBoard();
 
             if ((words = reader.readLine()) != null){
                 mode = words;
@@ -73,14 +73,13 @@ public class Main {
                         String[] rowMatrix = currentCharMatrix.get(k);
                         if (rowMatrix.length < currMax){
                             String[] newRowMatrix = new String[currMax];
-                            for (int z = 0; z < rowMatrix.length; z++){
-                                newRowMatrix[z] = rowMatrix[z];
+                            for (int z = 0; z < currMax; z++) {
+                                if (z < rowMatrix.length) {
+                                    newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  // Salin karakter yang ada
+                                } else {
+                                    newRowMatrix[z] = ".";  // Pastikan semua elemen kosong diisi titik
+                                }
                             }
-
-                            for(int x = rowMatrix.length; x < currMax ;x++){
-                                newRowMatrix[x] = ".";
-                            }
-
                             currentCharMatrix.set(k, newRowMatrix);
                         }
                     }
@@ -104,18 +103,18 @@ public class Main {
                     allShape.add(blockMirror180);
                     allShape.add(blockMirror270);
     
-                    // Block.printMatrix(block90);
-                    // Block.printMatrix(block180);
-                    // Block.printMatrix(block270);
-                    // Block.printMatrix(blockMirror);
-                    // Block.printMatrix(blockMirror90);
-                    // Block.printMatrix(blockMirror180);
-                    // Block.printMatrix(blockMirror270);
+                    Block.printMatrix(block90);
+                    Block.printMatrix(block180);
+                    Block.printMatrix(block270);
+                    Block.printMatrix(blockMirror);
+                    Block.printMatrix(blockMirror90);
+                    Block.printMatrix(blockMirror180);
+                    Block.printMatrix(blockMirror270);
 
 
                     List<String[][]> newAllShape = new ArrayList<>(allShape);
-                    Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
-                    blocklist.add(block);
+                    // Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
+                    // blocklist.add(block);
                     
                     currentCharMatrix.clear();
                     allShape.clear();
@@ -127,6 +126,20 @@ public class Main {
             }
 
             if (!currentCharMatrix.isEmpty()){
+                for (int k = 0; k < currentCharMatrix.size(); k++) {
+                    String[] rowMatrix = currentCharMatrix.get(k);
+                    if (rowMatrix.length < currMax) {
+                        String[] newRowMatrix = new String[currMax];
+                        for (int z = 0; z < currMax; z++) {
+                            if (z < rowMatrix.length) {
+                                newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  // Salin karakter yang ada
+                            } else {
+                                newRowMatrix[z] = ".";  // Pastikan semua elemen kosong diisi titik
+                            }
+                        }
+                        currentCharMatrix.set(k, newRowMatrix);
+                    }
+                }
                 matrix.add(currentCharMatrix.toArray(new String[0][]));
                 String[][] matrixblock = convertToMatrix(currentCharMatrix);
                 String[][] block90 = Block.rotateBlock90(matrixblock);
@@ -146,33 +159,36 @@ public class Main {
                 allShape.add(blockMirror270);
                 
 
-                // Block.printMatrix(block90);
-                // Block.printMatrix(block180);
-                // Block.printMatrix(block270);
-                // Block.printMatrix(blockMirror);
-                // Block.printMatrix(blockMirror90);
-                // Block.printMatrix(blockMirror180);
-                // Block.printMatrix(blockMirror270);
+                Block.printMatrix(block90);
+                Block.printMatrix(block180);
+                Block.printMatrix(block270);
+                Block.printMatrix(blockMirror);
+                Block.printMatrix(blockMirror90);
+                Block.printMatrix(blockMirror180);
+                Block.printMatrix(blockMirror270);
                 
                 List<String[][]> newAllShape = new ArrayList<>(allShape);
-                Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
-                blocklist.add(block);
+                // Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
+                // blocklist.add(block);
             }
 
 
             reader.close();
 
-            Block myBlock = blocklist.get(0);
-            int shapeIndex = 2;
+            // BruteForce brutefForce = new BruteForce(board, blocklist);
+            // if (!brutefForce.solve()){
+            //     System.out.println("Solusi Tidak ada");
+            // }
+    
+            // Block myBlock = blocklist.get(0);
+            // int shapeIndex = 2;
 
-            if (board.isPlaceAble(myBlock, shapeIndex, 1, 1)) {
-                board.placeBlock(myBlock, shapeIndex, 1, 1);
-                System.out.println("Board setelah menambahkan blok:");
-                board.printBoard();
-                board.removeBlock(myBlock, shapeIndex, 1, 1);
-                System.out.println("Board setelah menghapus blok:");
-                board.printBoard();
-            }
+            // if (board.isPlaceAble(myBlock, shapeIndex, 1, 1)) {
+            //     board.placeBlock(myBlock, shapeIndex, 1, 1);
+            //     board.printBoard();
+            //     board.removeBlock(myBlock, shapeIndex, 1, 1);
+            //     board.printBoard();
+            // }
             // System.out.println("\nList of Blocks with All Shapes:");
             // for (Block b : blocklist) {
             //     System.out.println("Block ID: " + b.getId());
