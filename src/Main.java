@@ -9,7 +9,7 @@ public class Main {
             // Baca File
             String file = "STIMA\\src\\testcase\\tes.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            // ini kemungkinan di hapus
+
             List<String[][]> matrix = new ArrayList<>();
             String words;
             String mode;
@@ -48,45 +48,67 @@ public class Main {
                 if (words.trim().isEmpty()) {
                     continue; // Skip baris kosong
                 }
+
+                // Debugging: Menampilkan baris mentah yang dibaca
+                System.out.println("Raw input line: " + words);
+
+                // Hilangkan spasi ekstra
+                words = words.trim().replaceAll("\\s+", " ");
                 String dots = words.replace(" ", ".");
-                // Ubah 1 line jadi array
                 String[] row = dots.split("");
+
+                // Debugging: Menampilkan hasil parsing row
+                System.out.println("Parsed row: " + Arrays.toString(row));
+
                 if (row.length > currMax){
                     currMax = row.length;
                 }
-                
+
                 int i = 0;
-                //cari sampai bukan "." , harus char A-Z
-                while (row[i].equals(".") && i < row.length){
+                // cari sampai bukan ".", harus char A-Z
+                while (i < row.length && row[i].equals(".")){
                     i++;
-                    
                 }
                 
+                if (i >= row.length) {
+                    continue; // Lewati baris kosong yang hanya berisi titik
+                }
+
                 String currentChar = row[i];
-                
-                // System.out.println(currentChar);
-                i = 0;
 
                 if (!currentChar.equals(prevchar) && !currentCharMatrix.isEmpty()){
-                    // biar N x M, yang spasi di isi "."
-                    for (int k = 0; k< currentCharMatrix.size(); k++){
+                    // Debugging: Menampilkan isi blok sebelum perataan
+                    System.out.println("Blok sebelum perataan:");
+                    for (String[] line : currentCharMatrix) {
+                        System.out.println(Arrays.toString(line));
+                    }
+
+                    // Pastikan setiap baris dalam blok memiliki panjang `currMax`
+                    for (int k = 0; k < currentCharMatrix.size(); k++){
                         String[] rowMatrix = currentCharMatrix.get(k);
                         if (rowMatrix.length < currMax){
                             String[] newRowMatrix = new String[currMax];
                             for (int z = 0; z < currMax; z++) {
                                 if (z < rowMatrix.length) {
-                                    newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  // Salin karakter yang ada
+                                    newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  
                                 } else {
-                                    newRowMatrix[z] = ".";  // Pastikan semua elemen kosong diisi titik
+                                    newRowMatrix[z] = ".";  
                                 }
                             }
                             currentCharMatrix.set(k, newRowMatrix);
                         }
                     }
+
                     matrix.add(currentCharMatrix.toArray(new String[0][]));
                     
-                    // Ubah list ke matrix (biar gampang)
+                    // Konversi list ke matriks
                     String[][] matrixblock = convertToMatrix(currentCharMatrix);
+
+                    // Debugging: Menampilkan isi matrix sebelum transformasi
+                    System.out.println("Blok setelah konversi ke matrix:");
+                    Block.printMatrix(matrixblock);
+
+                    // Proses transformasi (rotasi dan cerminan)
                     String[][] block90 = Block.rotateBlock90(matrixblock);
                     String[][] block180 = Block.rotateBlock180(matrixblock);
                     String[][] block270 = Block.rotateBlock270(matrixblock);
@@ -102,7 +124,9 @@ public class Main {
                     allShape.add(blockMirror90);
                     allShape.add(blockMirror180);
                     allShape.add(blockMirror270);
-    
+
+                    // Debugging: Menampilkan hasil transformasi blok
+                    System.out.println("Hasil transformasi blok:");
                     Block.printMatrix(block90);
                     Block.printMatrix(block180);
                     Block.printMatrix(block270);
@@ -111,11 +135,6 @@ public class Main {
                     Block.printMatrix(blockMirror180);
                     Block.printMatrix(blockMirror270);
 
-
-                    List<String[][]> newAllShape = new ArrayList<>(allShape);
-                    // Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
-                    // blocklist.add(block);
-                    
                     currentCharMatrix.clear();
                     allShape.clear();
                     currMax = -1;
@@ -125,40 +144,48 @@ public class Main {
                 prevchar = currentChar;
             }
 
-            if (!currentCharMatrix.isEmpty()){
+            if (!currentCharMatrix.isEmpty()) {
+                // Debugging: Menampilkan isi blok terakhir sebelum diproses
+                System.out.println("Blok terakhir sebelum konversi:");
+                for (String[] row : currentCharMatrix) {
+                    System.out.println(Arrays.toString(row));
+                }
+            
+                // Pastikan setiap baris dalam blok terakhir memiliki panjang `currMax`
                 for (int k = 0; k < currentCharMatrix.size(); k++) {
                     String[] rowMatrix = currentCharMatrix.get(k);
                     if (rowMatrix.length < currMax) {
                         String[] newRowMatrix = new String[currMax];
                         for (int z = 0; z < currMax; z++) {
                             if (z < rowMatrix.length) {
-                                newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  // Salin karakter yang ada
+                                newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  
                             } else {
-                                newRowMatrix[z] = ".";  // Pastikan semua elemen kosong diisi titik
+                                newRowMatrix[z] = ".";  
                             }
                         }
                         currentCharMatrix.set(k, newRowMatrix);
                     }
                 }
+            
                 matrix.add(currentCharMatrix.toArray(new String[0][]));
+            
+                // Konversi ke matriks
                 String[][] matrixblock = convertToMatrix(currentCharMatrix);
-                String[][] block90 = Block.rotateBlock90(matrixblock);
-                String[][] block180 = Block.rotateBlock180(matrixblock);
-                String[][] block270 = Block.rotateBlock270(matrixblock);
-                String[][] blockMirror = Block.mirrorVertical(matrixblock);
-                String[][] blockMirror90 = Block.mirrorVertical(block90);
-                String[][] blockMirror180 = Block.mirrorVertical(block180);
-                String[][] blockMirror270 = Block.mirrorVertical(block270);
+            
+                // Debugging: Pastikan blok terakhir dikonversi dengan benar
+                System.out.println("Blok terakhir setelah konversi ke matrix:");
+                Block.printMatrix(matrixblock);
+            
+                // Tambahkan semua rotasi dan cerminan
                 allShape.add(matrixblock);
-                allShape.add(block90);
-                allShape.add(block180);
-                allShape.add(block270);
-                allShape.add(blockMirror);
-                allShape.add(blockMirror90);
-                allShape.add(blockMirror180);
-                allShape.add(blockMirror270);
+                allShape.add(Block.rotateBlock90(matrixblock));
+                allShape.add(Block.rotateBlock180(matrixblock));
+                allShape.add(Block.rotateBlock270(matrixblock));
+                allShape.add(Block.mirrorVertical(matrixblock));
+                allShape.add(Block.mirrorVertical(Block.rotateBlock90(matrixblock)));
+                allShape.add(Block.mirrorVertical(Block.rotateBlock180(matrixblock)));
+                allShape.add(Block.mirrorVertical(Block.rotateBlock270(matrixblock)));
                 
-
                 Block.printMatrix(block90);
                 Block.printMatrix(block180);
                 Block.printMatrix(block270);
@@ -167,68 +194,56 @@ public class Main {
                 Block.printMatrix(blockMirror180);
                 Block.printMatrix(blockMirror270);
                 
-                List<String[][]> newAllShape = new ArrayList<>(allShape);
-                // Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
-                // blocklist.add(block);
+                // Tambahkan ke daftar blok
+                Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(allShape));
+                blocklist.add(block);
             }
-
 
             reader.close();
 
-            // BruteForce brutefForce = new BruteForce(board, blocklist);
-            // if (!brutefForce.solve()){
-            //     System.out.println("Solusi Tidak ada");
-            // }
-    
-            // Block myBlock = blocklist.get(0);
-            // int shapeIndex = 2;
+            // Debugging: Menampilkan daftar blok sebelum dijalankan oleh BruteForce
+            System.out.println("\nDaftar Blok yang Akan Diproses:");
+            for (Block b : blocklist) {
+                System.out.println("Block ID: " + b.getId());
+                Block.printMatrix(Block.convertCharToString(b.getShape()));
 
-            // if (board.isPlaceAble(myBlock, shapeIndex, 1, 1)) {
-            //     board.placeBlock(myBlock, shapeIndex, 1, 1);
-            //     board.printBoard();
-            //     board.removeBlock(myBlock, shapeIndex, 1, 1);
-            //     board.printBoard();
-            // }
-            // System.out.println("\nList of Blocks with All Shapes:");
-            // for (Block b : blocklist) {
-            //     System.out.println("Block ID: " + b.getId());
+            }
 
-            //     int shapeIndex = 1;
-            //     for (String[][] shape : b.getAllShape()) {
-            //         System.out.println("Shape Variation " + shapeIndex + ":");
-            //         Block.printMatrix(shape);
-            //         shapeIndex++;
-            //     }
-                
-            //     System.out.println(); 
-            // }
-
-        }
-
-
+            BruteForce bruteforce = new BruteForce(board, blocklist);
+            if (!bruteforce.solve()) {
+                System.out.println("Solusi Tidak Ada");
+            }
+        } 
         catch(IOException e){ 
             e.printStackTrace();
         }
     }
 
     public static String[][] convertToMatrix(List<String[]> list) {
-        // Ubah list jadi matrix
         int rows = list.size();
-        int maxColumns = 0;
-        for (String[] array : list) {
-            if (array.length > maxColumns) {
-                maxColumns = array.length;
-            }
-        }
+        int maxColumns = list.stream().mapToInt(arr -> arr.length).max().orElse(0);
+
         String[][] matrix = new String[rows][maxColumns];
 
         for (int i = 0; i < rows; i++) {
             String[] rowArray = list.get(i);
-            for (int j = 0; j < rowArray.length; j++) {
-                matrix[i][j] = rowArray[j];
+            for (int j = 0; j < maxColumns; j++) {
+                if (j < rowArray.length && rowArray[j] != null) {
+                    matrix[i][j] = rowArray[j]; 
+                } else {
+                    matrix[i][j] = "."; 
+                }
             }
+        }
+
+        // Debugging: Menampilkan hasil konversi ke matrix
+        System.out.println("Matrix hasil konversi:");
+        for (String[] row : matrix) {
+            System.out.println(Arrays.toString(row));
         }
 
         return matrix;
     }
+
+    
 }

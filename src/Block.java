@@ -105,4 +105,14 @@ public class Block {
     //     System.out.println("Rotasi 270 derajat (90° tiga kali):");
     //     printMatrix(rotateBlock270(matrix));
     // }
+
+    public static String[][] convertCharToString(char[][] charMatrix) {
+        String[][] stringMatrix = new String[charMatrix.length][charMatrix[0].length];
+        for (int i = 0; i < charMatrix.length; i++) {
+            for (int j = 0; j < charMatrix[i].length; j++) {
+                stringMatrix[i][j] = String.valueOf(charMatrix[i][j]);
+            }
+        }
+        return stringMatrix;
+    }
 }
