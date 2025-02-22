@@ -4,7 +4,7 @@ AA
 A
 B
 C
-CC
+C
 D
 DD
  D
@@ -14,4 +14,4 @@ E
  FF
 FF
 F
-GGG
+GGGG
