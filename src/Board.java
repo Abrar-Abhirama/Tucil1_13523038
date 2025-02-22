@@ -87,33 +87,34 @@ public class Board {
     }
 
     public void printBoard(){
+        //26 jenis warna 
         String[] color = {
-            "\u001B[38;5;196m", // Merah terang
-            "\u001B[38;5;202m", // Oranye terang
-            "\u001B[38;5;208m", // Kuning-oranye
-            "\u001B[38;5;214m", // Kuning terang
-            "\u001B[38;5;220m", // Emas terang
-            "\u001B[38;5;226m", // Kuning neon
-            "\u001B[38;5;190m", // Hijau kekuningan
-            "\u001B[38;5;46m",  // Hijau neon
-            "\u001B[38;5;47m",  // Hijau terang
-            "\u001B[38;5;51m",  // Cyan terang
-            "\u001B[38;5;27m",  // Biru neon
-            "\u001B[38;5;21m",  // Biru terang
-            "\u001B[38;5;57m",  // Ungu terang
-            "\u001B[38;5;93m",  // Pink terang
-            "\u001B[38;5;129m", // Magenta terang
-            "\u001B[38;5;201m", // Pink neon
-            "\u001B[38;5;165m", // Ungu neon
-            "\u001B[38;5;198m", // Merah muda neon
-            "\u001B[38;5;160m", // Merah darah
-            "\u001B[38;5;124m", // Merah tua
-            "\u001B[38;5;166m", // Oranye kemerahan
-            "\u001B[38;5;202m", // Oranye terang
-            "\u001B[38;5;214m", // Kuning-oranye
-            "\u001B[38;5;118m", // Hijau cerah
-            "\u001B[38;5;50m",  // Cyan kebiruan
-            "\u001B[38;5;21m"   // Biru terang
+            "\u001B[38;5;196m", 
+            "\u001B[38;5;202m", 
+            "\u001B[38;5;208m", 
+            "\u001B[38;5;214m", 
+            "\u001B[38;5;220m", 
+            "\u001B[38;5;226m", 
+            "\u001B[38;5;190m", 
+            "\u001B[38;5;46m",  
+            "\u001B[38;5;47m",  
+            "\u001B[38;5;51m",  
+            "\u001B[38;5;27m",  
+            "\u001B[38;5;21m",  
+            "\u001B[38;5;57m",  
+            "\u001B[38;5;93m",  
+            "\u001B[38;5;129m", 
+            "\u001B[38;5;201m", 
+            "\u001B[38;5;165m", 
+            "\u001B[38;5;198m", 
+            "\u001B[38;5;160m", 
+            "\u001B[38;5;124m", 
+            "\u001B[38;5;166m", 
+            "\u001B[38;5;202m", 
+            "\u001B[38;5;214m", 
+            "\u001B[38;5;118m", 
+            "\u001B[38;5;50m",  
+            "\u001B[38;5;21m"   
         };
 
         String reset = "\u001B[0m";

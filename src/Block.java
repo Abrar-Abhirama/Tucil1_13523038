@@ -8,7 +8,7 @@ public class Block {
 
     public Block(char id, String[][] shape, List<String[][]> allShape) {
         this.id = id;
-        // Mengonversi String[][] menjadi char[][]
+        // ubah String[][] jadi char[][]
         this.shape = new char[shape.length][];
         for (int i = 0; i < shape.length; i++) {
             this.shape[i] = new char[shape[i].length];
@@ -30,8 +30,6 @@ public class Block {
     public List<String[][]> getAllShape(){
         return allShape;
     }
-
-    
 
     public void printShape() {
         for (int i = 0; i < shape.length; i++) {
@@ -85,27 +83,7 @@ public class Block {
         }
         System.out.println();
     }
-    // public static void main(String[] args) {
-    //     // Contoh penggunaan
-    //     String[][] matrix = {
-    //         {"A", "B"},
-    //         {"D", "E"},
-    //         {"G", "H"}
-    //     };
-
-    //     System.out.println("Matriks Original:");
-    //     printMatrix(matrix);
-
-    //     System.out.println("Rotasi 90 derajat:");
-    //     printMatrix(rotateBlock90(matrix));
-
-    //     System.out.println("Rotasi 180 derajat (90° dua kali):");
-    //     printMatrix(rotateBlock180(matrix));
-
-    //     System.out.println("Rotasi 270 derajat (90° tiga kali):");
-    //     printMatrix(rotateBlock270(matrix));
-    // }
-
+    
     public static String[][] convertCharToString(char[][] charMatrix) {
         String[][] stringMatrix = new String[charMatrix.length][charMatrix[0].length];
         for (int i = 0; i < charMatrix.length; i++) {

@@ -11,7 +11,8 @@ DD
 EEE
 EE
 E
- FF
+ FFF
 FF
 F
-GGGG
+G
+GG

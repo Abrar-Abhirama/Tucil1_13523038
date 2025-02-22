@@ -7,9 +7,8 @@ public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "STIMA\\src\\testcase\\tes2.txt";
+            String file = "STIMA\\src\\testcase\\tes.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            // ini kemungkinan di hapus
             List<String[][]> matrix = new ArrayList<>();
             String words;
             String mode;
@@ -66,6 +65,7 @@ public class Main {
                 String currentChar = row[i];
                 
                 // System.out.println(currentChar);
+
                 i = 0;
 
                 if (!currentChar.equals(prevchar) && !currentCharMatrix.isEmpty()){
@@ -104,15 +104,6 @@ public class Main {
                     allShape.add(blockMirror90);
                     allShape.add(blockMirror180);
                     allShape.add(blockMirror270);
-    
-                    // Block.printMatrix(block90);
-                    // Block.printMatrix(block180);
-                    // Block.printMatrix(block270);
-                    // Block.printMatrix(blockMirror);
-                    // Block.printMatrix(blockMirror90);
-                    // Block.printMatrix(blockMirror180);
-                    // Block.printMatrix(blockMirror270);
-
 
                     List<String[][]> newAllShape = new ArrayList<>(allShape);
                     Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
@@ -146,15 +137,6 @@ public class Main {
                 allShape.add(blockMirror180);
                 allShape.add(blockMirror270);
                 
-
-                // Block.printMatrix(block90);
-                // Block.printMatrix(block180);
-                // Block.printMatrix(block270);
-                // Block.printMatrix(blockMirror);
-                // Block.printMatrix(blockMirror90);
-                // Block.printMatrix(blockMirror180);
-                // Block.printMatrix(blockMirror270);
-                
                 List<String[][]> newAllShape = new ArrayList<>(allShape);
                 Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
                 blocklist.add(block);
@@ -163,8 +145,8 @@ public class Main {
 
             reader.close();
 
-            // Debugging: Menampilkan daftar blok sebelum dijalankan oleh BruteForce
-            // System.out.println("\nDaftar Blok yang Akan Diproses:");
+            // Debug
+            // System.out.println("\nDaftar Blok:");
             // for (Block b : blocklist) {
             //     System.out.println("Block ID: " + b.getId());
             //     Block.printMatrix(Block.convertCharToString(b.getShape()));
@@ -257,11 +239,6 @@ public class Main {
             }
         }
 
-        // // Debugging: Menampilkan hasil konversi ke matrix
-        // System.out.println("Matrix hasil konversi:");
-        // for (String[] row : matrix) {
-        //     System.out.println(Arrays.toString(row));
-        // }
 
         return matrix;
     }

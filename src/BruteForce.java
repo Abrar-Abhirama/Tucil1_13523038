@@ -17,7 +17,7 @@ public class BruteForce {
 
     public boolean solve() {
         boolean result = tryPlacingBlocks(0);
-        System.out.println("Banyak Kemungkinan yang sudah di coba : " + count );
+        System.out.println("Banyak kasus yang ditinjau : " + count );
         System.out.println();
         return result;
     }
