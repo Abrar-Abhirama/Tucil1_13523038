@@ -87,9 +87,45 @@ public class Board {
     }
 
     public void printBoard(){
+        String[] color = {
+            "\u001B[38;5;196m", // Merah terang
+            "\u001B[38;5;202m", // Oranye terang
+            "\u001B[38;5;208m", // Kuning-oranye
+            "\u001B[38;5;214m", // Kuning terang
+            "\u001B[38;5;220m", // Emas terang
+            "\u001B[38;5;226m", // Kuning neon
+            "\u001B[38;5;190m", // Hijau kekuningan
+            "\u001B[38;5;46m",  // Hijau neon
+            "\u001B[38;5;47m",  // Hijau terang
+            "\u001B[38;5;51m",  // Cyan terang
+            "\u001B[38;5;27m",  // Biru neon
+            "\u001B[38;5;21m",  // Biru terang
+            "\u001B[38;5;57m",  // Ungu terang
+            "\u001B[38;5;93m",  // Pink terang
+            "\u001B[38;5;129m", // Magenta terang
+            "\u001B[38;5;201m", // Pink neon
+            "\u001B[38;5;165m", // Ungu neon
+            "\u001B[38;5;198m", // Merah muda neon
+            "\u001B[38;5;160m", // Merah darah
+            "\u001B[38;5;124m", // Merah tua
+            "\u001B[38;5;166m", // Oranye kemerahan
+            "\u001B[38;5;202m", // Oranye terang
+            "\u001B[38;5;214m", // Kuning-oranye
+            "\u001B[38;5;118m", // Hijau cerah
+            "\u001B[38;5;50m",  // Cyan kebiruan
+            "\u001B[38;5;21m"   // Biru terang
+        };
+
+        String reset = "\u001B[0m";
         for (int i = 0; i < this.row ; i++){
             for (int j = 0; j <this.col; j++){
-                System.out.print(grid[i][j] + " ");
+                if (grid[i][j] == ('.')){
+                    System.out.println(". ");
+                }
+                else{
+                    int colorsIdx = (grid[i][j] - 'A') % color.length;
+                    System.out.print(color[colorsIdx] + grid[i][j] + "  " + reset);  
+                }
             }
             System.out.println();
         }

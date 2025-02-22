@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "STIMA\\src\\testcase\\tes.txt";
+            String file = "STIMA\\src\\testcase\\tes2.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
             // ini kemungkinan di hapus
             List<String[][]> matrix = new ArrayList<>();
@@ -15,6 +15,7 @@ public class Main {
             String mode;
             int currMax = -1;
             int rowBoard = 0, colBoard = 0, blocks = 0;
+           
 
             // Simpan Semua Blocknya
             List<Block> blocklist = new ArrayList<>();
@@ -27,9 +28,9 @@ public class Main {
                     rowBoard = Integer.parseInt(word[0]);
                     colBoard = Integer.parseInt(word[1]);
                     blocks = Integer.parseInt(word[2]);
-                    System.out.println("row = " + rowBoard);
-                    System.out.println("col = " + colBoard);
-                    System.out.println("blocks = " + blocks);
+                    // System.out.println("row = " + rowBoard);
+                    // System.out.println("col = " + colBoard);
+                    // System.out.println("blocks = " + blocks);
                 }
             }
             
@@ -38,7 +39,7 @@ public class Main {
 
             if ((words = reader.readLine()) != null){
                 mode = words;
-                System.out.println("Mode = " + mode);
+                // System.out.println("Mode = " + mode);
             }
             
             List<String[]> currentCharMatrix= new ArrayList<>();
@@ -73,13 +74,14 @@ public class Main {
                         String[] rowMatrix = currentCharMatrix.get(k);
                         if (rowMatrix.length < currMax){
                             String[] newRowMatrix = new String[currMax];
-                            for (int z = 0; z < currMax; z++) {
-                                if (z < rowMatrix.length) {
-                                    newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  // Salin karakter yang ada
-                                } else {
-                                    newRowMatrix[z] = ".";  // Pastikan semua elemen kosong diisi titik
-                                }
+                            for (int z = 0; z < rowMatrix.length; z++){
+                                newRowMatrix[z] = rowMatrix[z];
                             }
+
+                            for(int x = rowMatrix.length; x < currMax ;x++){
+                                newRowMatrix[x] = ".";
+                            }
+
                             currentCharMatrix.set(k, newRowMatrix);
                         }
                     }
@@ -103,18 +105,18 @@ public class Main {
                     allShape.add(blockMirror180);
                     allShape.add(blockMirror270);
     
-                    Block.printMatrix(block90);
-                    Block.printMatrix(block180);
-                    Block.printMatrix(block270);
-                    Block.printMatrix(blockMirror);
-                    Block.printMatrix(blockMirror90);
-                    Block.printMatrix(blockMirror180);
-                    Block.printMatrix(blockMirror270);
+                    // Block.printMatrix(block90);
+                    // Block.printMatrix(block180);
+                    // Block.printMatrix(block270);
+                    // Block.printMatrix(blockMirror);
+                    // Block.printMatrix(blockMirror90);
+                    // Block.printMatrix(blockMirror180);
+                    // Block.printMatrix(blockMirror270);
 
 
                     List<String[][]> newAllShape = new ArrayList<>(allShape);
-                    // Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
-                    // blocklist.add(block);
+                    Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
+                    blocklist.add(block);
                     
                     currentCharMatrix.clear();
                     allShape.clear();
@@ -126,20 +128,6 @@ public class Main {
             }
 
             if (!currentCharMatrix.isEmpty()){
-                for (int k = 0; k < currentCharMatrix.size(); k++) {
-                    String[] rowMatrix = currentCharMatrix.get(k);
-                    if (rowMatrix.length < currMax) {
-                        String[] newRowMatrix = new String[currMax];
-                        for (int z = 0; z < currMax; z++) {
-                            if (z < rowMatrix.length) {
-                                newRowMatrix[z] = (rowMatrix[z] != null) ? rowMatrix[z] : ".";  // Salin karakter yang ada
-                            } else {
-                                newRowMatrix[z] = ".";  // Pastikan semua elemen kosong diisi titik
-                            }
-                        }
-                        currentCharMatrix.set(k, newRowMatrix);
-                    }
-                }
                 matrix.add(currentCharMatrix.toArray(new String[0][]));
                 String[][] matrixblock = convertToMatrix(currentCharMatrix);
                 String[][] block90 = Block.rotateBlock90(matrixblock);
@@ -159,76 +147,124 @@ public class Main {
                 allShape.add(blockMirror270);
                 
 
-                Block.printMatrix(block90);
-                Block.printMatrix(block180);
-                Block.printMatrix(block270);
-                Block.printMatrix(blockMirror);
-                Block.printMatrix(blockMirror90);
-                Block.printMatrix(blockMirror180);
-                Block.printMatrix(blockMirror270);
+                // Block.printMatrix(block90);
+                // Block.printMatrix(block180);
+                // Block.printMatrix(block270);
+                // Block.printMatrix(blockMirror);
+                // Block.printMatrix(blockMirror90);
+                // Block.printMatrix(blockMirror180);
+                // Block.printMatrix(blockMirror270);
                 
                 List<String[][]> newAllShape = new ArrayList<>(allShape);
-                // Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
-                // blocklist.add(block);
+                Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
+                blocklist.add(block);
             }
 
 
             reader.close();
 
-            // BruteForce brutefForce = new BruteForce(board, blocklist);
-            // if (!brutefForce.solve()){
-            //     System.out.println("Solusi Tidak ada");
-            // }
-    
-            // Block myBlock = blocklist.get(0);
-            // int shapeIndex = 2;
-
-            // if (board.isPlaceAble(myBlock, shapeIndex, 1, 1)) {
-            //     board.placeBlock(myBlock, shapeIndex, 1, 1);
-            //     board.printBoard();
-            //     board.removeBlock(myBlock, shapeIndex, 1, 1);
-            //     board.printBoard();
-            // }
-            // System.out.println("\nList of Blocks with All Shapes:");
+            // Debugging: Menampilkan daftar blok sebelum dijalankan oleh BruteForce
+            // System.out.println("\nDaftar Blok yang Akan Diproses:");
             // for (Block b : blocklist) {
             //     System.out.println("Block ID: " + b.getId());
+            //     Block.printMatrix(Block.convertCharToString(b.getShape()));
 
-            //     int shapeIndex = 1;
-            //     for (String[][] shape : b.getAllShape()) {
-            //         System.out.println("Shape Variation " + shapeIndex + ":");
-            //         Block.printMatrix(shape);
-            //         shapeIndex++;
-            //     }
-                
-            //     System.out.println(); 
             // }
+            
+            int totalCells = rowBoard * colBoard;
+            int totalBlockCells = 0;
 
-        }
+            for (Block block : blocklist) {
+                char[][] shape = block.getShape();
+                for (char[] row : shape) {
+                    for (char cell : row) {
+                        if (cell != '.') {
+                            totalBlockCells++;
+                        }
+                    }
+                }
+            }
 
+            if (totalBlockCells < totalCells) {
+                System.out.println("Blok yang diberikan kurang untuk mengisi papan.\nTidak ada solusi.");
+                return;
+            } else if (totalBlockCells > totalCells) {
+                System.out.println("Blok yang diberikan lebih banyak dari yang dibutuhkan.\nTidak ada solusi.");
+                return;
+            }
 
+            long startTime = System.nanoTime();
+            BruteForce bruteforce = new BruteForce(board, blocklist);
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1_000_000;
+            System.out.println("Waktu pencarian: " + duration + " ms");
+            if (!bruteforce.solve()) {
+                System.out.println("Solusi Tidak Ada");
+            }
+            else{
+                System.out.println("Apakah anda ingin menyimpan solusi? (ya/tidak)");
+                Scanner scanner = new Scanner(System.in);
+                String save = scanner.nextLine().trim().toLowerCase();
+                if (save.equals("ya")){
+                    System.out.print("Ketikkan Nama file: ");
+                    String File = scanner.nextLine().trim();
+
+                    try(BufferedWriter writer = new BufferedWriter(new FileWriter(File))){
+                        char[][] grid = board.getGrid();
+                        for (int j= 0; j < grid.length; j++){
+                            for (int k =0; k < grid[j].length;k++){
+                                writer.write(grid[j][k] + " ");
+                            }
+                            writer.newLine();
+                        }        
+                    }
+                    catch (IOException error){
+                        System.out.println("Ada Error dalam menyimpan file");
+                    }
+                }
+
+                else if (save.equals("tidak")){
+                    System.out.println("Tidak di Simpan");
+                }
+
+                else{
+                    System.out.println("Input Tidak Valid");
+                }
+                scanner.close();
+
+            }
+
+        } 
         catch(IOException e){ 
             e.printStackTrace();
         }
     }
 
     public static String[][] convertToMatrix(List<String[]> list) {
-        // Ubah list jadi matrix
         int rows = list.size();
-        int maxColumns = 0;
-        for (String[] array : list) {
-            if (array.length > maxColumns) {
-                maxColumns = array.length;
-            }
-        }
+        int maxColumns = list.stream().mapToInt(arr -> arr.length).max().orElse(0);
+
         String[][] matrix = new String[rows][maxColumns];
 
         for (int i = 0; i < rows; i++) {
             String[] rowArray = list.get(i);
-            for (int j = 0; j < rowArray.length; j++) {
-                matrix[i][j] = rowArray[j];
+            for (int j = 0; j < maxColumns; j++) {
+                if (j < rowArray.length && rowArray[j] != null) {
+                    matrix[i][j] = rowArray[j]; 
+                } else {
+                    matrix[i][j] = "."; 
+                }
             }
         }
 
+        // // Debugging: Menampilkan hasil konversi ke matrix
+        // System.out.println("Matrix hasil konversi:");
+        // for (String[] row : matrix) {
+        //     System.out.println(Arrays.toString(row));
+        // }
+
         return matrix;
     }
+
+    
 }
