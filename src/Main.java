@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "STIMA\\src\\testcase\\inputCustom1.txt";
+            String file = "src\\testcase\\inputCustom1.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
             List<String[][]> matrix = new ArrayList<>();
             String words;
