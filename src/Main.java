@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "STIMA\\src\\testcase\\tes2.txt";
+            String file = "STIMA\\src\\testcase\\inputCustom1.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
             List<String[][]> matrix = new ArrayList<>();
             String words;
@@ -20,7 +20,11 @@ public class Main {
             List<String[][]> allShape = new ArrayList<>();
 
             // Baca Row, Cols, Jumlah Blok
-            if ((words = reader.readLine()) != null){
+            while ((words = reader.readLine()) != null && words.trim().isEmpty()) {
+                continue; 
+            }
+            
+            if (words != null) {
                 String[] word = words.split(" ");
                 if (word.length >= 3){
                     rowBoard = Integer.parseInt(word[0]);
@@ -38,8 +42,10 @@ public class Main {
             }
             
             
-    
-            mode = reader.readLine();
+            while ((mode = reader.readLine()) != null && mode.trim().isEmpty()) {
+                continue; // Lewati baris kosong
+            }
+            
             Board board = null;
             
             if (mode.equals("CUSTOM")) {
