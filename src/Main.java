@@ -38,13 +38,11 @@ public class Main {
                 }
             }
             
+            
+    
+            mode = reader.readLine();
+            
             Board board = new Board(rowBoard, colBoard);
-            // board.printBoard();
-
-            if ((words = reader.readLine()) != null){
-                mode = words;
-                // System.out.println("Mode = " + mode);
-            }
             
             List<String[]> currentCharMatrix= new ArrayList<>();
             String prevchar = "";
@@ -166,24 +164,27 @@ public class Main {
             int totalCells = rowBoard * colBoard;
             int totalBlockCells = 0;
 
-            for (Block block : blocklist) {
-                char[][] shape = block.getShape();
-                for (char[] row : shape) {
-                    for (char cell : row) {
-                        if (cell != '.') {
-                            totalBlockCells++;
+            if (mode.equals("DEFAULT")){
+                for (Block block : blocklist) {
+                    char[][] shape = block.getShape();
+                    for (char[] row : shape) {
+                        for (char cell : row) {
+                            if (cell != '.') {
+                                totalBlockCells++;
+                            }
                         }
                     }
                 }
+    
+                if (totalBlockCells < totalCells) {
+                    System.out.println("Blok yang diberikan kurang untuk mengisi papan.\nTidak ada solusi.");
+                    return;
+                } else if (totalBlockCells > totalCells) {
+                    System.out.println("Blok yang diberikan lebih banyak dari yang dibutuhkan.\nTidak ada solusi.");
+                    return;
+                }
             }
-
-            if (totalBlockCells < totalCells) {
-                System.out.println("Blok yang diberikan kurang untuk mengisi papan.\nTidak ada solusi.");
-                return;
-            } else if (totalBlockCells > totalCells) {
-                System.out.println("Blok yang diberikan lebih banyak dari yang dibutuhkan.\nTidak ada solusi.");
-                return;
-            }
+            
 
             long startTime = System.nanoTime();
             BruteForce bruteforce = new BruteForce(board, blocklist);
