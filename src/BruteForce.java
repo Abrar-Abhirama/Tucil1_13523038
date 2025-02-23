@@ -16,13 +16,13 @@ public class BruteForce {
     }
 
     public boolean solve() {
-        boolean result = tryPlacingBlocks(0);
+        boolean result = putBlock(0);
         System.out.println("Banyak kasus yang ditinjau : " + count );
         System.out.println();
         return result;
     }
 
-    private boolean tryPlacingBlocks(int index) {
+    private boolean putBlock(int index) {
         if (index == blocklist.size()) {
             if (board.isComplete()) {
                 printSolution();
@@ -41,7 +41,7 @@ public class BruteForce {
                     count += 1;
                     if (board.isPlaceAble(block, shapeIndex, x, y)) {
                         board.placeBlock(block, shapeIndex, x, y);
-                        if (tryPlacingBlocks(index + 1)) {
+                        if (putBlock(index + 1)) {
                             return true;
                         }
                         board.removeBlock(block, shapeIndex, x, y);

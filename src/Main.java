@@ -27,6 +27,10 @@ public class Main {
                     rowBoard = Integer.parseInt(word[0]);
                     colBoard = Integer.parseInt(word[1]);
                     blocks = Integer.parseInt(word[2]);
+
+                    if (rowBoard <= 0 || colBoard <= 0){
+                        throw new IllegalArgumentException("Dimensi papan tidak valid");
+                    }
                     // System.out.println("row = " + rowBoard);
                     // System.out.println("col = " + colBoard);
                     // System.out.println("blocks = " + blocks);
@@ -145,6 +149,11 @@ public class Main {
 
             reader.close();
 
+            if (blocklist.size() != blocks) {
+                System.out.println("Jumlah block tidak sama dengan block yang diinput.");
+                System.exit(1); 
+            }
+
             // Debug
             // System.out.println("\nDaftar Blok:");
             // for (Block b : blocklist) {
@@ -178,8 +187,11 @@ public class Main {
             long startTime = System.nanoTime();
             BruteForce bruteforce = new BruteForce(board, blocklist);
             long endTime = System.nanoTime();
-            long duration = (endTime - startTime) / 1_000_000;
-            System.out.println("Waktu pencarian: " + duration + " ms");
+
+            long durationNano = (endTime - startTime);
+            double durationMillis = durationNano / 1_000_000.0;
+            System.out.println("Waktu pencarian: " + durationNano + " ns ("+ durationMillis + "ms)");
+
             if (!bruteforce.solve()) {
                 System.out.println("Solusi Tidak Ada");
             }
