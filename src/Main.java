@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "STIMA\\src\\testcase\\input2.txt";
+            String file = "STIMA\\src\\testcase\\tes2.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
             List<String[][]> matrix = new ArrayList<>();
             String words;
@@ -15,7 +15,6 @@ public class Main {
             int currMax = -1;
             int rowBoard = 0, colBoard = 0, blocks = 0;
            
-
             // Simpan Semua Blocknya
             List<Block> blocklist = new ArrayList<>();
             List<String[][]> allShape = new ArrayList<>();
@@ -60,8 +59,11 @@ public class Main {
                 board = new Board(rowBoard, colBoard);
             }
 
-            
-            
+            else{
+                System.out.println("Jenis Kasus Tidak Valid (DEAFULT/CUSTOM)");
+                System.exit(1);
+            }
+
             List<String[]> currentCharMatrix= new ArrayList<>();
             String prevchar = "";
 
@@ -80,7 +82,6 @@ public class Main {
                 //cari sampai bukan "." , harus char A-Z
                 while (row[i].equals(".") && i < row.length){
                     i++;
-                    
                 }
                 
                 String currentChar = row[i];
@@ -130,11 +131,6 @@ public class Main {
                     List<String[][]> newAllShape = new ArrayList<>(allShape);
                     Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
                     blocklist.add(block);
-                    System.out.println("Blok " + prevchar + " memiliki rotasi dan cerminan:");
-                    for (String[][] shape : allShape) {
-                        Block.printMatrix(shape);
-                    }
-                    System.out.println();
                     currentCharMatrix.clear();
                     allShape.clear();
                     currMax = -1;
@@ -170,15 +166,7 @@ public class Main {
 
             
             reader.close();
-            System.out.println("Blok " + prevchar + " memiliki rotasi dan cerminan:");
-            for (String[][] shape : allShape) {
-                Block.printMatrix(shape);
-            }
-            System.out.println();
-
-            board.printBoard();
-            
-
+        
             if (blocklist.size() != blocks) {
                 System.out.println("Jumlah block tidak sama dengan block yang diinput.");
                 System.exit(1); 
@@ -216,14 +204,13 @@ public class Main {
                 }
             }
             
-
             long startTime = System.nanoTime();
             BruteForce bruteforce = new BruteForce(board, blocklist);
             long endTime = System.nanoTime();
 
             long durationNano = (endTime - startTime);
             double durationMillis = durationNano / 1_000_000.0;
-            System.out.println("Waktu pencarian: " + durationNano + " ns ("+ durationMillis + "ms)");
+            System.out.println("Waktu pencarian: " + "("+ durationMillis + "ms)");
 
             if (!bruteforce.solve()) {
                 System.out.println("Solusi Tidak Ada");
@@ -233,21 +220,30 @@ public class Main {
                 Scanner scanner = new Scanner(System.in);
                 String save = scanner.nextLine().trim().toLowerCase();
                 if (save.equals("ya")){
-                    System.out.print("Ketikkan Nama file: ");
+                    System.out.print("Silahkan pilih jenis file output\n1. Image\n2. Txt\n( 1 / 2 )? : ");
+                    String output = scanner.nextLine().trim();
+                    System.out.print("\nKetikkan Nama file yang Akan Dibuat: ");
                     String File = scanner.nextLine().trim();
-                    board.saveImage(File + ".png");
-                    // try(BufferedWriter writer = new BufferedWriter(new FileWriter(File))){
-                    //     char[][] grid = board.getGrid();
-                    //     for (int j= 0; j < grid.length; j++){
-                    //         for (int k =0; k < grid[j].length;k++){
-                    //             writer.write(grid[j][k] + " ");
-                    //         }
-                    //         writer.newLine();
-                    //     }        
-                    // }
-                    // catch (IOException error){
-                    //     System.out.println("Ada Error dalam menyimpan file");
-                    // }
+                    if (output.equals("1")){
+                        board.saveImage(File + ".png");
+                    }
+                    
+                    else if (output.equals("2")){
+                        try(BufferedWriter writer = new BufferedWriter(new FileWriter(File))){
+                            char[][] grid = board.getGrid();
+                            for (int j= 0; j < grid.length; j++){
+                                for (int k =0; k < grid[j].length;k++){
+                                    writer.write(grid[j][k] + " ");
+                                }
+                                writer.newLine();
+                            }        
+                        }
+                        catch (IOException error){
+                            System.out.println("Ada Error dalam menyimpan file");
+                        }
+                    }
+                    
+                    
                 }
 
                 else if (save.equals("tidak")){
@@ -266,5 +262,5 @@ public class Main {
             e.printStackTrace();
         }
     }
-    
+
 }

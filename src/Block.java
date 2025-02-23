@@ -1,6 +1,5 @@
 package src;
 import java.util.*;
-import src.*;
 public class Block {
     private char id;
     private char[][] shape;

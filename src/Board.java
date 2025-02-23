@@ -1,5 +1,4 @@
 package src;
-import src.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,34 +11,32 @@ public class Board {
     private char[][] grid;
     private char[][] customGrid;
 
-    public Board(int row, int col) {  // Constructor untuk DEFAULT Mode
+    public Board(int row, int col) { 
         this.row = row;
         this.col = col;
         this.grid = new char[row][col];
-        this.customGrid = new char[row][col]; // Default semua cell bisa diisi
+        this.customGrid = new char[row][col]; 
     
-        // Inisialisasi grid: semua sel boleh diisi
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                this.grid[i][j] = '.'; // Semua sel dapat diisi
-                this.customGrid[i][j] = 'X'; // Semua posisi bisa ditempati
+                this.grid[i][j] = '.'; 
+                this.customGrid[i][j] = 'X'; 
             }
         }
     }
 
-    public Board(int row, int col, char[][] customGrid) {  // Constructor untuk CUSTOM Mode
+    public Board(int row, int col, char[][] customGrid) {  
         this.row = row;
         this.col = col;
         this.grid = new char[row][col];
-        this.customGrid = customGrid; // Simpan custom grid
+        this.customGrid = customGrid; 
     
-        // Inisialisasi grid berdasarkan customGrid
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (customGrid[i][j] == 'X') {
-                    this.grid[i][j] = '.'; // Bisa diisi
+                    this.grid[i][j] = '.'; 
                 } else {
-                    this.grid[i][j] = ' '; // Tidak boleh diisi
+                    this.grid[i][j] = ' '; 
                 }
             }
         }
@@ -86,7 +83,6 @@ public class Board {
         }
     }
 
-
     public void removeBlock(Block block, int shapeIndex, int startX, int startY) {
         char[][] shape = convertToCharMatrix(block.getAllShape().get(shapeIndex));
         int blockRows = shape.length;
@@ -117,7 +113,6 @@ public class Board {
     }
 
     public void printBoard(){
-        //26 jenis warna 
         String[] color = {
             "\u001B[38;5;196m", 
             "\u001B[38;5;202m", 
@@ -151,16 +146,12 @@ public class Board {
         for (int i = 0; i < this.row; i++) {
             for (int j = 0; j < this.col; j++) {
                 char cell = grid[i][j];
-    
-                // Jika sel kosong ('.'), cetak titik tanpa warna
                 if (cell == '.') {
                     System.out.print(".  ");
                 } 
-                // Jika bukan huruf A-Z, cetak tanpa warna
                 else if (cell < 'A' || cell > 'Z') {
                     System.out.print(cell + "  ");
                 } 
-                // Jika huruf A-Z, cetak dengan warna
                 else {
                     int colorsIdx = (cell - 'A') % color.length;
                     System.out.print(color[colorsIdx] + cell + "  " + reset);
@@ -172,14 +163,13 @@ public class Board {
     }
 
     public void saveImage(String file) {
-        int cellSize = 50; // Ukuran setiap sel di grid
+        int cellSize = 50; 
         int width = col * cellSize;
         int height = row * cellSize;
     
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
-    
-        // Warna blok berdasarkan kode ANSI yang diubah ke RGB
+     
         Color[] colors = {
             new Color(255, 0, 0), new Color(255, 95, 0), new Color(255, 135, 0),
             new Color(255, 175, 0), new Color(255, 215, 0), new Color(255, 255, 0),
@@ -205,7 +195,7 @@ public class Board {
                 g.drawRect(x, y, cellSize, cellSize);
     
                 if (block == '.' || block == ' ') {
-                   continue; // Warna default untuk sel kosong
+                   continue; 
                 } else if (block >= 'A' && block <= 'Z') {
                     int colorIndex = (block - 'A') % colors.length;
                     g.setColor(colors[colorIndex]);

@@ -1,5 +1,4 @@
 package src;
-import src.*;
 import java.util.*;
 
 public class BruteForce {
@@ -54,7 +53,8 @@ public class BruteForce {
     }
 
     private void printSolution() {
-        System.out.println("Solusi ditemukan:");
+        System.out.println("Solusi ditemukan :\n");
         board.printBoard();
+        
     }
 }
