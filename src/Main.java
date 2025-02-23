@@ -88,7 +88,7 @@ public class Main {
                     matrix.add(currentCharMatrix.toArray(new String[0][]));
                     
                     // Ubah list ke matrix (biar gampang)
-                    String[][] matrixblock = convertToMatrix(currentCharMatrix);
+                    String[][] matrixblock = Block.convertToMatrix(currentCharMatrix);
                     String[][] block90 = Block.rotateBlock90(matrixblock);
                     String[][] block180 = Block.rotateBlock180(matrixblock);
                     String[][] block270 = Block.rotateBlock270(matrixblock);
@@ -120,7 +120,7 @@ public class Main {
 
             if (!currentCharMatrix.isEmpty()){
                 matrix.add(currentCharMatrix.toArray(new String[0][]));
-                String[][] matrixblock = convertToMatrix(currentCharMatrix);
+                String[][] matrixblock = Block.convertToMatrix(currentCharMatrix);
                 String[][] block90 = Block.rotateBlock90(matrixblock);
                 String[][] block180 = Block.rotateBlock180(matrixblock);
                 String[][] block270 = Block.rotateBlock270(matrixblock);
@@ -190,19 +190,19 @@ public class Main {
                 if (save.equals("ya")){
                     System.out.print("Ketikkan Nama file: ");
                     String File = scanner.nextLine().trim();
-
-                    try(BufferedWriter writer = new BufferedWriter(new FileWriter(File))){
-                        char[][] grid = board.getGrid();
-                        for (int j= 0; j < grid.length; j++){
-                            for (int k =0; k < grid[j].length;k++){
-                                writer.write(grid[j][k] + " ");
-                            }
-                            writer.newLine();
-                        }        
-                    }
-                    catch (IOException error){
-                        System.out.println("Ada Error dalam menyimpan file");
-                    }
+                    board.saveImage(File + ".png");
+                    // try(BufferedWriter writer = new BufferedWriter(new FileWriter(File))){
+                    //     char[][] grid = board.getGrid();
+                    //     for (int j= 0; j < grid.length; j++){
+                    //         for (int k =0; k < grid[j].length;k++){
+                    //             writer.write(grid[j][k] + " ");
+                    //         }
+                    //         writer.newLine();
+                    //     }        
+                    // }
+                    // catch (IOException error){
+                    //     System.out.println("Ada Error dalam menyimpan file");
+                    // }
                 }
 
                 else if (save.equals("tidak")){
@@ -221,27 +221,5 @@ public class Main {
             e.printStackTrace();
         }
     }
-
-    public static String[][] convertToMatrix(List<String[]> list) {
-        int rows = list.size();
-        int maxColumns = list.stream().mapToInt(arr -> arr.length).max().orElse(0);
-
-        String[][] matrix = new String[rows][maxColumns];
-
-        for (int i = 0; i < rows; i++) {
-            String[] rowArray = list.get(i);
-            for (int j = 0; j < maxColumns; j++) {
-                if (j < rowArray.length && rowArray[j] != null) {
-                    matrix[i][j] = rowArray[j]; 
-                } else {
-                    matrix[i][j] = "."; 
-                }
-            }
-        }
-
-
-        return matrix;
-    }
-
     
 }

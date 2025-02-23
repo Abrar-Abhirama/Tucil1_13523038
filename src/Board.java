@@ -1,5 +1,10 @@
 package src;
 import src.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Board {
     private int row;
@@ -131,6 +136,76 @@ public class Board {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public void saveImage(String file){
+        int cellSize = 50; // Ukuran setiap sel di grid
+        int width = col * cellSize;
+        int height = row * cellSize;
+        
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = image.createGraphics();
+        
+        // Warna blok berdasarkan kode ANSI yang diubah ke RGB
+        Color[] colors = {
+            new Color(255, 0, 0),    // 196 - Merah
+            new Color(255, 95, 0),   // 202 - Oranye terang
+            new Color(255, 135, 0),  // 208 - Oranye
+            new Color(255, 175, 0),  // 214 - Kuning-oranye
+            new Color(255, 215, 0),  // 220 - Kuning terang
+            new Color(255, 255, 0),  // 226 - Kuning
+            new Color(190, 255, 0),  // 190 - Kuning kehijauan
+            new Color(0, 255, 0),    // 46 - Hijau
+            new Color(0, 255, 95),   // 47 - Hijau terang
+            new Color(0, 255, 255),  // 51 - Cyan terang
+            new Color(0, 175, 255),  // 27 - Biru terang
+            new Color(0, 0, 255),    // 21 - Biru
+            new Color(95, 0, 255),   // 57 - Ungu terang
+            new Color(175, 0, 255),  // 93 - Ungu
+            new Color(215, 0, 255),  // 129 - Magenta terang
+            new Color(255, 0, 215),  // 201 - Pink terang
+            new Color(255, 0, 135),  // 165 - Pink gelap
+            new Color(255, 0, 175),  // 198 - Magenta
+            new Color(255, 0, 95),   // 160 - Merah tua
+            new Color(215, 0, 0),    // 124 - Merah gelap
+            new Color(175, 95, 0),   // 166 - Oranye gelap
+            new Color(255, 95, 0),   // 202 - Oranye terang (duplikasi)
+            new Color(255, 175, 0),  // 214 - Kuning-oranye (duplikasi)
+            new Color(0, 255, 135),  // 118 - Hijau kebiruan
+            new Color(0, 175, 95),   // 50 - Hijau tua
+            new Color(0, 0, 175)     // 21 - Biru tua (duplikasi)
+        };
+        
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
+        
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                char block = grid[i][j];
+                int x = j * cellSize;
+                int y = i * cellSize;
+                
+                g.setColor(Color.WHITE);
+                g.drawRect(x, y, cellSize, cellSize);
+                
+                if (block != '.') {
+                    int colorIndex = (block - 'A') % colors.length;
+                    g.setColor(colors[colorIndex]);
+                    g.fillOval(x + 1, y + 1, cellSize - 4, cellSize - 4);
+                }
+            }
+        }
+        
+        g.dispose();
+        
+        try {
+            ImageIO.write(image, "png", new File(file));
+            System.out.println("Solusi Telah disimpan di :  " + file);
+        } catch (IOException e) {
+            System.out.println("Gagal menyimpan gambar: " + e.getMessage());
+        }
+
+
     }
 
     private char[][] convertToCharMatrix(String[][] shape) {

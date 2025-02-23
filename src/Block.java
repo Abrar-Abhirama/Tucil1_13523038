@@ -93,4 +93,26 @@ public class Block {
         }
         return stringMatrix;
     }
+
+    public static String[][] convertToMatrix(List<String[]> list) {
+        int rows = list.size();
+        int maxColumns = list.stream().mapToInt(arr -> arr.length).max().orElse(0);
+
+        String[][] matrix = new String[rows][maxColumns];
+
+        for (int i = 0; i < rows; i++) {
+            String[] rowArray = list.get(i);
+            for (int j = 0; j < maxColumns; j++) {
+                if (j < rowArray.length && rowArray[j] != null) {
+                    matrix[i][j] = rowArray[j]; 
+                } else {
+                    matrix[i][j] = "."; 
+                }
+            }
+        }
+
+
+        return matrix;
+    }
+    
 }
