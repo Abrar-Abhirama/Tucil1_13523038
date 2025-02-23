@@ -10,18 +10,41 @@ public class Board {
     private int row;
     private int col;
     private char[][] grid;
+    private char[][] customGrid;
 
-    public Board(int row, int col){
+    public Board(int row, int col) {  // Constructor untuk DEFAULT Mode
         this.row = row;
         this.col = col;
         this.grid = new char[row][col];
-
-        for (int i = 0; i < row ; i++){
-            for (int j = 0; j < col; j++){
-                grid[i][j] = '.';
+        this.customGrid = new char[row][col]; // Default semua cell bisa diisi
+    
+        // Inisialisasi grid: semua sel boleh diisi
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                this.grid[i][j] = '.'; // Semua sel dapat diisi
+                this.customGrid[i][j] = 'X'; // Semua posisi bisa ditempati
             }
         }
     }
+
+    public Board(int row, int col, char[][] customGrid) {  // Constructor untuk CUSTOM Mode
+        this.row = row;
+        this.col = col;
+        this.grid = new char[row][col];
+        this.customGrid = customGrid; // Simpan custom grid
+    
+        // Inisialisasi grid berdasarkan customGrid
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (customGrid[i][j] == 'X') {
+                    this.grid[i][j] = '.'; // Bisa diisi
+                } else {
+                    this.grid[i][j] = ' '; // Tidak boleh diisi
+                }
+            }
+        }
+    }
+
     
     public char[][] getGrid(){
         return grid;
@@ -36,10 +59,12 @@ public class Board {
             return false;
         }
 
-        for (int i = 0; i < rowBlock; i++){
-            for (int j =0; j < colBlock; j++){
-                if (shape[i][j] != '.' && grid[X + i][Y+j] != '.'){
-                    return false;
+        for (int i = 0; i < rowBlock; i++) {
+            for (int j = 0; j < colBlock; j++) {
+                if (shape[i][j] != '.') {
+                    if (grid[X + i][Y + j] != '.' || customGrid[X + i][Y + j] != 'X') {
+                        return false;
+                    }
                 }
             }
         }
@@ -82,7 +107,7 @@ public class Board {
 
         for (int i =0 ;i < rowBoards ; i++){
             for (int j = 0; j < colBoards; j++){
-                if (grid[i][j] == '.'){
+                if (customGrid[i][j] == 'X' && grid[i][j] == '.') {
                     return false;
                 }
             }
@@ -123,14 +148,22 @@ public class Board {
         };
 
         String reset = "\u001B[0m";
-        for (int i = 0; i < this.row ; i++){
-            for (int j = 0; j <this.col; j++){
-                if (grid[i][j] == ('.')){
-                    System.out.println(". ");
-                }
-                else{
-                    int colorsIdx = (grid[i][j] - 'A') % color.length;
-                    System.out.print(color[colorsIdx] + grid[i][j] + "  " + reset);  
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                char cell = grid[i][j];
+    
+                // Jika sel kosong ('.'), cetak titik tanpa warna
+                if (cell == '.') {
+                    System.out.print(".  ");
+                } 
+                // Jika bukan huruf A-Z, cetak tanpa warna
+                else if (cell < 'A' || cell > 'Z') {
+                    System.out.print(cell + "  ");
+                } 
+                // Jika huruf A-Z, cetak dengan warna
+                else {
+                    int colorsIdx = (cell - 'A') % color.length;
+                    System.out.print(color[colorsIdx] + cell + "  " + reset);
                 }
             }
             System.out.println();
@@ -138,75 +171,60 @@ public class Board {
         System.out.println();
     }
 
-    public void saveImage(String file){
+    public void saveImage(String file) {
         int cellSize = 50; // Ukuran setiap sel di grid
         int width = col * cellSize;
         int height = row * cellSize;
-        
+    
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
-        
+    
         // Warna blok berdasarkan kode ANSI yang diubah ke RGB
         Color[] colors = {
-            new Color(255, 0, 0),    // 196 - Merah
-            new Color(255, 95, 0),   // 202 - Oranye terang
-            new Color(255, 135, 0),  // 208 - Oranye
-            new Color(255, 175, 0),  // 214 - Kuning-oranye
-            new Color(255, 215, 0),  // 220 - Kuning terang
-            new Color(255, 255, 0),  // 226 - Kuning
-            new Color(190, 255, 0),  // 190 - Kuning kehijauan
-            new Color(0, 255, 0),    // 46 - Hijau
-            new Color(0, 255, 95),   // 47 - Hijau terang
-            new Color(0, 255, 255),  // 51 - Cyan terang
-            new Color(0, 175, 255),  // 27 - Biru terang
-            new Color(0, 0, 255),    // 21 - Biru
-            new Color(95, 0, 255),   // 57 - Ungu terang
-            new Color(175, 0, 255),  // 93 - Ungu
-            new Color(215, 0, 255),  // 129 - Magenta terang
-            new Color(255, 0, 215),  // 201 - Pink terang
-            new Color(255, 0, 135),  // 165 - Pink gelap
-            new Color(255, 0, 175),  // 198 - Magenta
-            new Color(255, 0, 95),   // 160 - Merah tua
-            new Color(215, 0, 0),    // 124 - Merah gelap
-            new Color(175, 95, 0),   // 166 - Oranye gelap
-            new Color(255, 95, 0),   // 202 - Oranye terang (duplikasi)
-            new Color(255, 175, 0),  // 214 - Kuning-oranye (duplikasi)
-            new Color(0, 255, 135),  // 118 - Hijau kebiruan
-            new Color(0, 175, 95),   // 50 - Hijau tua
-            new Color(0, 0, 175)     // 21 - Biru tua (duplikasi)
+            new Color(255, 0, 0), new Color(255, 95, 0), new Color(255, 135, 0),
+            new Color(255, 175, 0), new Color(255, 215, 0), new Color(255, 255, 0),
+            new Color(190, 255, 0), new Color(0, 255, 0), new Color(0, 255, 95),
+            new Color(0, 255, 255), new Color(0, 175, 255), new Color(0, 0, 255),
+            new Color(95, 0, 255), new Color(175, 0, 255), new Color(215, 0, 255),
+            new Color(255, 0, 215), new Color(255, 0, 135), new Color(255, 0, 175),
+            new Color(255, 0, 95), new Color(215, 0, 0), new Color(175, 95, 0),
+            new Color(255, 95, 0), new Color(255, 175, 0), new Color(0, 255, 135),
+            new Color(0, 175, 95), new Color(0, 0, 175)
         };
-        
+    
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
-        
+    
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 char block = grid[i][j];
                 int x = j * cellSize;
                 int y = i * cellSize;
-                
+    
                 g.setColor(Color.WHITE);
                 g.drawRect(x, y, cellSize, cellSize);
-                
-                if (block != '.') {
+    
+                if (block == '.' || block == ' ') {
+                   continue; // Warna default untuk sel kosong
+                } else if (block >= 'A' && block <= 'Z') {
                     int colorIndex = (block - 'A') % colors.length;
                     g.setColor(colors[colorIndex]);
-                    g.fillOval(x + 1, y + 1, cellSize - 4, cellSize - 4);
                 }
+    
+                g.fillOval(x + 1, y + 1, cellSize - 4, cellSize - 4);
             }
         }
-        
+    
         g.dispose();
-        
+    
         try {
             ImageIO.write(image, "png", new File(file));
-            System.out.println("Solusi Telah disimpan di :  " + file);
+            System.out.println("Solusi telah disimpan di: " + file);
         } catch (IOException e) {
             System.out.println("Gagal menyimpan gambar: " + e.getMessage());
         }
-
-
     }
+    
 
     private char[][] convertToCharMatrix(String[][] shape) {
         int rows = shape.length;

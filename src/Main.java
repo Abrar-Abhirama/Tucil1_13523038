@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "STIMA\\src\\testcase\\tes.txt";
+            String file = "STIMA\\src\\testcase\\input2.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
             List<String[][]> matrix = new ArrayList<>();
             String words;
@@ -41,8 +41,26 @@ public class Main {
             
     
             mode = reader.readLine();
+            Board board = null;
             
-            Board board = new Board(rowBoard, colBoard);
+            if (mode.equals("CUSTOM")) {
+                char[][] customGrid = new char[rowBoard][colBoard];
+                
+                for (int i = 0; i < rowBoard; i++) {
+                    String line = reader.readLine().trim();
+                    for (int j = 0; j < colBoard; j++) {
+                        customGrid[i][j] = line.charAt(j);
+                    }
+                }
+            
+                board = new Board(rowBoard, colBoard, customGrid);
+            }
+
+            else if(mode.equals("DEFAULT")){
+                board = new Board(rowBoard, colBoard);
+            }
+
+            
             
             List<String[]> currentCharMatrix= new ArrayList<>();
             String prevchar = "";
@@ -91,6 +109,7 @@ public class Main {
                     matrix.add(currentCharMatrix.toArray(new String[0][]));
                     
                     // Ubah list ke matrix (biar gampang)
+                    
                     String[][] matrixblock = Block.convertToMatrix(currentCharMatrix);
                     String[][] block90 = Block.rotateBlock90(matrixblock);
                     String[][] block180 = Block.rotateBlock180(matrixblock);
@@ -111,7 +130,11 @@ public class Main {
                     List<String[][]> newAllShape = new ArrayList<>(allShape);
                     Block block = new Block(prevchar.charAt(0), matrixblock, new ArrayList<>(newAllShape));
                     blocklist.add(block);
-                    
+                    System.out.println("Blok " + prevchar + " memiliki rotasi dan cerminan:");
+                    for (String[][] shape : allShape) {
+                        Block.printMatrix(shape);
+                    }
+                    System.out.println();
                     currentCharMatrix.clear();
                     allShape.clear();
                     currMax = -1;
@@ -145,8 +168,16 @@ public class Main {
                 blocklist.add(block);
             }
 
-
+            
             reader.close();
+            System.out.println("Blok " + prevchar + " memiliki rotasi dan cerminan:");
+            for (String[][] shape : allShape) {
+                Block.printMatrix(shape);
+            }
+            System.out.println();
+
+            board.printBoard();
+            
 
             if (blocklist.size() != blocks) {
                 System.out.println("Jumlah block tidak sama dengan block yang diinput.");
