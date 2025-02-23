@@ -29,7 +29,8 @@ public class Main {
                     blocks = Integer.parseInt(word[2]);
 
                     if (rowBoard <= 0 || colBoard <= 0){
-                        throw new IllegalArgumentException("Dimensi papan tidak valid");
+                        reader.close();
+                        throw new IllegalArgumentException("Dimensi papan tidak valid"); 
                     }
                     // System.out.println("row = " + rowBoard);
                     // System.out.println("col = " + colBoard);
