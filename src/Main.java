@@ -218,16 +218,23 @@ public class Main {
             
             long startTime = System.nanoTime();
             BruteForce bruteforce = new BruteForce(board, blocklist);
-            long endTime = System.nanoTime();
-
-            long durationNano = (endTime - startTime);
-            double durationMillis = durationNano / 1_000_000.0;
-            System.out.println("Waktu pencarian: " + "("+ durationMillis + " ms)");
+           
+    
 
             if (!bruteforce.solve()) {
                 System.out.println("Solusi Tidak Ada");
+                long endTime = System.nanoTime();
+
+                long durationNano = (endTime - startTime);
+                long durationMillis = durationNano / 1_000_000;
+                System.out.println("Waktu pencarian: " + "("+ durationMillis + " ms)");
             }
             else{
+                long endTime = System.nanoTime();
+                long durationNano = (endTime - startTime);
+                long durationMillis = durationNano / 1_000_000;
+                System.out.println("Waktu pencarian: " + "("+ durationMillis + " ms)");
+                System.out.println();
                 System.out.println("Apakah anda ingin menyimpan solusi? (ya/tidak)");
                 Scanner scanners = new Scanner(System.in);
                 String save = scanners.nextLine().trim().toLowerCase();
@@ -273,7 +280,7 @@ public class Main {
         catch(FileNotFoundException e ){
             System.out.println("File Tidak di Temukan");
         }
-        
+
         catch(IOException e){ 
             e.printStackTrace();
         }
