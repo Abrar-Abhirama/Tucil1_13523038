@@ -10,6 +10,10 @@ This program utilizes a brute force algorithm to find solutions for the IQ Puzzl
 git clone https://github.com/Abrar-Abhirama/Tucil1_13523038.git
 ```
 2. COMPILE
+<br>
+Make sure the current directory is set to the \Tucil1_13523038 folder.
+<br>
+
 ```bash
 javac -d bin src/*.java
 ```
