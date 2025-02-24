@@ -1,14 +1,20 @@
 package src;
 import java.io.*;
 import java.util.*;
+import java.nio.file.*;
 import src.*;
 
 public class Main {
     public static void main(String[] args){
         try{
             // Baca File
-            String file = "src\\testcase\\inputCustom1.txt";
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Masukkan file .txt,  ex (input1): ");
+            String fileIn = scanner.nextLine().trim().toLowerCase();
+            String fileInput = fileIn + ".txt"; 
+            Path path = Paths.get("src", "testcase", fileInput);
+
+            BufferedReader reader = new BufferedReader(new FileReader(path.toFile()));
             List<String[][]> matrix = new ArrayList<>();
             String words;
             String mode;
@@ -216,20 +222,20 @@ public class Main {
 
             long durationNano = (endTime - startTime);
             double durationMillis = durationNano / 1_000_000.0;
-            System.out.println("Waktu pencarian: " + "("+ durationMillis + "ms)");
+            System.out.println("Waktu pencarian: " + "("+ durationMillis + " ms)");
 
             if (!bruteforce.solve()) {
                 System.out.println("Solusi Tidak Ada");
             }
             else{
                 System.out.println("Apakah anda ingin menyimpan solusi? (ya/tidak)");
-                Scanner scanner = new Scanner(System.in);
-                String save = scanner.nextLine().trim().toLowerCase();
+                Scanner scanners = new Scanner(System.in);
+                String save = scanners.nextLine().trim().toLowerCase();
                 if (save.equals("ya")){
                     System.out.print("Silahkan pilih jenis file output\n1. Image\n2. Txt\n( 1 / 2 )? : ");
-                    String output = scanner.nextLine().trim();
+                    String output = scanners.nextLine().trim();
                     System.out.print("\nKetikkan Nama file yang Akan Dibuat: ");
-                    String File = scanner.nextLine().trim();
+                    String File = scanners.nextLine().trim();
                     if (output.equals("1")){
                         board.saveImage(File + ".png");
                     }
@@ -259,14 +265,19 @@ public class Main {
                 else{
                     System.out.println("Input Tidak Valid");
                 }
-                scanner.close();
+                scanners.close();
 
             }
 
         } 
+        catch(FileNotFoundException e ){
+            System.out.println("File Tidak di Temukan");
+        }
+        
         catch(IOException e){ 
             e.printStackTrace();
         }
+        
     }
 
 }

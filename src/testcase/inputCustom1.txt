@@ -7,8 +7,9 @@ XXXXXXX
 ...X...
 A
 AAA
-BB
+
 BBB
+ BB
  C
 CCCC
 D
