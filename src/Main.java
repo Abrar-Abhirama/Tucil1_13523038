@@ -12,7 +12,7 @@ public class Main {
             System.out.println("Masukkan file .txt,  ex (input1): ");
             String fileIn = scanner.nextLine().trim().toLowerCase();
             String fileInput = fileIn + ".txt"; 
-            Path path = Paths.get("tes", fileInput);
+            Path path = Paths.get("test", fileInput);
 
             BufferedReader reader = new BufferedReader(new FileReader(path.toFile()));
             List<String[][]> matrix = new ArrayList<>();
